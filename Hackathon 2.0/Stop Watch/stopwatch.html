@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            display: grid;
+            place-items: center;
+            background-color: black;
+            color: white;
+        }
+        #container {
+            border: 1px solid red;
+            padding: 2em;
+        }
+        #time {
+            font-weight: bold;
+        }
+        .digit {
+            font-size: 5em;
+        }
+        .text {
+            font-size: 1.5em;
+        }
+
+        #button {
+            text-align: center;
+            margin-top: 2em;
+        }
+        .btn {
+            font-size: 1.5em;
+            font-weight: 900;
+            border: none;
+            border-radius: 0.5em;
+            padding: 0.5em;
+            margin: 0 1em;
+            color: white;
+        }
+        #start {
+            background-color: green;
+        }
+        #stop {
+            background-color: blue;
+        }
+        #reset {
+            background-color: red;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="container">
+        <div id="time">
+            <span class="digit" id="hr">00</span>
+            <span class="text">Hr</span>
+            <span class="digit" id="min">00</span>
+            <span class="text">Min</span>
+            <span class="digit" id="sec">00</span>
+            <span class="text">Sec</span>
+            <span class="digit" id="mSec">00</span>
+        </div>
+        <div id="button">
+            <button class="btn" id="start" onclick="start()">Start</button>
+            <button class="btn" id="stop" onclick="stop()">Stop</button>
+            <button class="btn" id="reset" onclick="reset()">Reset</button>
+        </div>
+    </div>
+
+
+
+    <script>
+        var eHr = document.querySelector("#hr");
+        var eMin = document.querySelector("#min");
+        var eSec = document.querySelector("#sec");
+        var eMsec = document.querySelector("#mSec");
+
+        var hr = 0;
+        var min = 0;
+        var sec = 0;
+        var mSec = 0;
+
+        var timer = false;
+        
+        function start() {
+            timer = true;
+            stopwatch();
+        }
+
+        function stop() {
+            timer = false;
+        }
+
+        function reset() {
+            timer = false;
+            
+            hr = 0;
+            min = 0;
+            sec = 0;
+            mSec = 0;
+
+            eHr.innerText = hr+"0";
+            eMin.innerText = min+"0";
+            eSec.innerText = sec+"0";
+            eMsec.innerText = mSec+"0";
+        }
+
+        function stopwatch() {
+            if(timer) {
+                mSec++;
+                
+                if(mSec === 100) {
+                    sec++;
+                    mSec = 0;
+                }
+                
+                if(sec === 60) {
+                    min++;
+                    sec = 0;
+                }
+
+                if(min === 60) {
+                    hr++;
+                    min = 0;
+                    sec = 0;
+                }
+
+                var mSecString = mSec;
+                var secString =sec;
+                var minString =min;
+                var hrString = hr;
+
+                if(mSec < 10) mSecString = "0" + mSec;
+                if(sec < 10) secString = "0" + sec;
+                if(min < 10) minString = "0" + min;
+                if(hr < 10) hrString = "0" + hr;
+
+                eMsec.innerText = mSecString;
+                eSec.innerText = secString;
+                eMin.innerText = minString;
+                eHr.innerText = hrString;
+
+                setTimeout("stopwatch()", 10);
+            }
+        }
+    </script>
+</body>
+</html>
